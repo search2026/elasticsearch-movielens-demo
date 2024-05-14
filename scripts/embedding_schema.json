@@ -1,0 +1,22 @@
+{
+  "mappings": {
+    "properties": {
+      "movieId": {
+        "type": "keyword",
+        "norms": false
+      },
+      "title": {
+        "type": "text"
+      },
+      "tmdbId": {
+        "type": "text"
+      },
+      "title_genres_embedding": {
+        "type": "dense_vector",
+        "dims": 768,
+        "index": "true",
+        "similarity": "cosine"
+      }
+    }
+  }
+}

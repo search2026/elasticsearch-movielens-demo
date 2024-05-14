@@ -1,1 +1,4 @@
 elasticsearch >= 8.0
+cherrypy
+tmdbsimple
+sentence_transformers

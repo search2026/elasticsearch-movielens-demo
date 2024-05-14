@@ -1,0 +1,823 @@
+{
+  "settings": {
+    "index.mapping.total_fields.limit": 1000,
+    "index.mapping.nested_fields.limit": 500,
+    "index.max_docvalue_fields_search": 256,
+    "index.number_of_replicas": 1,
+    "similarity": {
+      "default": {
+        "type": "BM25",
+        "b": 0.75,
+        "k1": 1.2
+      }
+    },
+    "analysis": {
+      "char_filter": {
+        "de_char_filter": {
+          "type": "mapping",
+          "mappings": [
+            ":=>",
+            ".=>",
+            "&=>und"
+          ]
+        },
+        "en_char_filter": {
+          "type": "mapping",
+          "mappings": [
+            ":=>",
+            ".=>",
+            "&=>and"
+          ]
+        },
+        "es_char_filter": {
+          "type": "mapping",
+          "mappings": [
+            ":=>",
+            ".=>",
+            "&=>y"
+          ]
+        },
+        "fr_char_filter": {
+          "type": "mapping",
+          "mappings": [
+            ":=>",
+            ".=>",
+            "&=>et"
+          ]
+        },
+        "pt_char_filter": {
+          "type": "mapping",
+          "mappings": [
+            ":=>",
+            ".=>",
+            "&=>e"
+          ]
+        }
+      },
+      "normalizer": {
+        "normalizer_lowercase": {
+          "type": "custom",
+          "filter": [
+            "lowercase"
+          ]
+        },
+        "normalizer_uppercase": {
+          "type": "custom",
+          "filter": [
+            "uppercase"
+          ]
+        }
+      },
+      "filter": {
+        "ascii_folding_preserve": {
+          "type": "asciifolding",
+          "preserve_original": true
+        },
+        "nGram_filter": {
+          "type": "edge_ngram",
+          "min_gram": 1,
+          "max_gram": 20,
+          "token_chars": [
+            "letter",
+            "digit",
+            "punctuation",
+            "symbol"
+          ]
+        },
+        "remove_numbers": {
+          "type": "keep_types",
+          "types": [
+            "<NUM>"
+          ],
+          "mode": "exclude"
+        },
+        "shingle_bigram_space_filter": {
+          "type": "shingle",
+          "max_shingle_size": 2,
+          "min_shingle_size": 2,
+          "output_unigrams": "true",
+          "token_separator": " "
+        },
+        "stemmer_en_override": {
+          "type": "stemmer_override",
+          "rules": [
+            "animal=>animal",
+            "animals=>animal",
+            "animation=>animat",
+            "animated=>animat",
+            "housewives=>housewif"
+          ]
+        },
+        "snowball_stem_de": {
+          "type": "snowball",
+          "language": "German2"
+        },
+        "snowball_stem_en": {
+          "type": "snowball",
+          "language": "English"
+        },
+        "snowball_stem_es": {
+          "type": "snowball",
+          "language": "Spanish"
+        },
+        "snowball_stem_fr": {
+          "type": "snowball",
+          "language": "French"
+        },
+        "snowball_stem_pt": {
+          "type": "snowball",
+          "language": "Portuguese"
+        },
+        "stop_de": {
+          "type": "stop",
+          "stopwords": "_german_"
+        },
+        "stop_en": {
+          "type": "stop",
+          "stopwords": "_english_"
+        },
+        "stop_en_v2": {
+          "type": "stop",
+          "stopwords": [
+            "and",
+            "or",
+            "the",
+            "i",
+            "a",
+            "an",
+            "as",
+            "at",
+            "be",
+            "but",
+            "by",
+            "from",
+            "for",
+            "if",
+            "in",
+            "into",
+            "is",
+            "it",
+            "not",
+            "of",
+            "on",
+            "such",
+            "that",
+            "their",
+            "then",
+            "these",
+            "they",
+            "this",
+            "to"
+          ]
+        },
+        "stop_es": {
+          "type": "stop",
+          "stopwords": "_spanish_"
+        },
+        "stop_fr": {
+          "type": "stop",
+          "stopwords": "_french_"
+        },
+        "stop_pt": {
+          "type": "stop",
+          "stopwords": "_portuguese_"
+        },
+        "synonym": {
+          "type": "synonym",
+          "synonyms": [
+            "&, and"
+          ]
+        },
+        "synonym_title": {
+          "type": "synonym",
+          "synonyms": [
+            "&, and",
+            "50s, 1950s, fifties",
+            "60s, 1960s, sixties",
+            "70s, 1970s, seventies",
+            "80s, 1980s, eighties",
+            "90s, 1990s, nineties",
+            "a&e => a and e, aande, ae",
+            "all 4, 4od, channel 4, all four",
+            "amazon video, prime video, amazon prime video, amazon instant video",
+            "at&t, att, at t",
+            "bbc iplayer, iplayer",
+            "black news channel, bnc",
+            "cnn+, cnnplus, cnn plus",
+            "cnngo, cnn go",
+            "colour, color",
+            "direct tv, directv, directv now",
+            "discovery+, discoveryplus, discovery plus",
+            "dr, doctor",
+            "eight, viii, 8",
+            "eleven, xi, 11",
+            "five, 5",
+            "four, iv, 4",
+            "ghost busters, ghostbusters",
+            "investigation discovery go, id go",
+            "james town, jamestown",
+            "news max, newsmax",
+            "newsmaxtv, newsmax tv",
+            "nine, ix, 9",
+            "one, 1",
+            "paramount+, paramountplus, paramount plus",
+            "prime video => amazon",
+            "seven, vii, 7",
+            "sick note, sicknote",
+            "six, vi, 6",
+            "sky sports box office, sky box office",
+            "spectre, specter",
+            "spiderman, spider man, spider-man",
+            "ten, 10",
+            "thirteen, xiii, 13",
+            "three, iii, 3",
+            "twelve, xii, 12",
+            "two, ii, 2",
+            "u-verse, uverse",
+            "versus, vs",
+            "watch tnt => tnt",
+            "weather nation, weathernation",
+            "west world, westworld",
+            "yellowstone, yellow stone"
+          ]
+        },
+        "synonym_de": {
+          "type": "synonym",
+          "synonyms": [
+            "&, and",
+            "50s, 1950s, fifties",
+            "60s, 1960s, sixties",
+            "70s, 1970s, seventies",
+            "80s, 1980s, eighties",
+            "90s, 1990s, nineties",
+            "a&e => a and e, aande, ae",
+            "all 4, 4od, channel 4, all four",
+            "amazon video, prime video, amazon prime video, amazon instant video",
+            "at&t, att, at t",
+            "bbc iplayer, iplayer",
+            "black news channel, bnc",
+            "cnn+, cnnplus, cnn plus",
+            "cnngo, cnn go",
+            "colour, color",
+            "direct tv, directv, directv now",
+            "discovery+, discoveryplus, discovery plus",
+            "dr, doctor",
+            "eight, viii, 8",
+            "eleven, xi, 11",
+            "five, 5",
+            "four, iv, 4",
+            "ghost busters, ghostbusters",
+            "investigation discovery go, id go",
+            "james town, jamestown",
+            "news max, newsmax",
+            "newsmaxtv, newsmax tv",
+            "nine, ix, 9",
+            "one, 1",
+            "paramount+, paramountplus, paramount plus",
+            "prime video => amazon",
+            "seven, vii, 7",
+            "sick note, sicknote",
+            "six, vi, 6",
+            "sky sports box office, sky box office",
+            "spectre, specter",
+            "spiderman, spider man, spider-man",
+            "ten, 10",
+            "thirteen, xiii, 13",
+            "three, iii, 3",
+            "twelve, xii, 12",
+            "two, ii, 2",
+            "u-verse, uverse",
+            "versus, vs",
+            "watch tnt => tnt",
+            "weather nation, weathernation",
+            "west world, westworld",
+            "yellowstone, yellow stone"
+          ]
+        },
+        "synonym_en": {
+          "type": "synonym",
+          "synonyms": [
+            "&, and",
+            "50s, 1950s, fifties",
+            "60s, 1960s, sixties",
+            "70s, 1970s, seventies",
+            "80s, 1980s, eighties",
+            "90s, 1990s, nineties",
+            "a&e => a and e, aande, ae",
+            "all 4, 4od, channel 4, all four",
+            "amazon video, prime video, amazon prime video, amazon instant video",
+            "at&t, att, at t",
+            "bbc iplayer, iplayer",
+            "black news channel, bnc",
+            "cnn+, cnnplus, cnn plus",
+            "cnngo, cnn go",
+            "colour, color",
+            "direct tv, directv, directv now",
+            "discovery+, discoveryplus, discovery plus",
+            "dr, doctor",
+            "eight, viii, 8",
+            "eleven, xi, 11",
+            "five, 5",
+            "four, iv, 4",
+            "ghost busters, ghostbusters",
+            "investigation discovery go, id go",
+            "james town, jamestown",
+            "news max, newsmax",
+            "newsmaxtv, newsmax tv",
+            "nine, ix, 9",
+            "one, 1",
+            "paramount+, paramountplus, paramount plus",
+            "prime video => amazon",
+            "seven, vii, 7",
+            "sick note, sicknote",
+            "six, vi, 6",
+            "sky sports box office, sky box office",
+            "spectre, specter",
+            "spiderman, spider man, spider-man",
+            "ten, 10",
+            "thirteen, xiii, 13",
+            "three, iii, 3",
+            "twelve, xii, 12",
+            "two, ii, 2",
+            "u-verse, uverse",
+            "versus, vs",
+            "watch tnt => tnt",
+            "weather nation, weathernation",
+            "west world, westworld",
+            "yellowstone, yellow stone"
+          ]
+        },
+        "synonym_fr": {
+          "type": "synonym",
+          "synonyms": [
+            "&, and",
+            "50s, 1950s, fifties",
+            "60s, 1960s, sixties",
+            "70s, 1970s, seventies",
+            "80s, 1980s, eighties",
+            "90s, 1990s, nineties",
+            "a&e => a and e, aande, ae",
+            "all 4, 4od, channel 4, all four",
+            "amazon video, prime video, amazon prime video, amazon instant video",
+            "at&t, att, at t",
+            "bbc iplayer, iplayer",
+            "black news channel, bnc",
+            "cnn+, cnnplus, cnn plus",
+            "cnngo, cnn go",
+            "colour, color",
+            "direct tv, directv, directv now",
+            "discovery+, discoveryplus, discovery plus",
+            "dr, doctor",
+            "eight, viii, 8",
+            "eleven, xi, 11",
+            "five, 5",
+            "four, iv, 4",
+            "ghost busters, ghostbusters",
+            "investigation discovery go, id go",
+            "james town, jamestown",
+            "news max, newsmax",
+            "newsmaxtv, newsmax tv",
+            "nine, ix, 9",
+            "one, 1",
+            "paramount+, paramountplus, paramount plus",
+            "prime video => amazon",
+            "seven, vii, 7",
+            "sick note, sicknote",
+            "six, vi, 6",
+            "sky sports box office, sky box office",
+            "spectre, specter",
+            "spiderman, spider man, spider-man",
+            "ten, 10",
+            "thirteen, xiii, 13",
+            "three, iii, 3",
+            "twelve, xii, 12",
+            "two, ii, 2",
+            "u-verse, uverse",
+            "versus, vs",
+            "watch tnt => tnt",
+            "weather nation, weathernation",
+            "west world, westworld",
+            "yellowstone, yellow stone"
+          ]
+        },
+        "synonym_es": {
+          "type": "synonym",
+          "synonyms": [
+            "&, and",
+            "50s, 1950s, fifties",
+            "60s, 1960s, sixties",
+            "70s, 1970s, seventies",
+            "80s, 1980s, eighties",
+            "90s, 1990s, nineties",
+            "a&e => a and e, aande, ae",
+            "all 4, 4od, channel 4, all four",
+            "amazon video, prime video, amazon prime video, amazon instant video",
+            "at&t, att, at t",
+            "bbc iplayer, iplayer",
+            "black news channel, bnc",
+            "cnn+, cnnplus, cnn plus",
+            "cnngo, cnn go",
+            "colour, color",
+            "direct tv, directv, directv now",
+            "discovery+, discoveryplus, discovery plus",
+            "dr, doctor",
+            "eight, viii, 8",
+            "eleven, xi, 11",
+            "five, 5",
+            "four, iv, 4",
+            "ghost busters, ghostbusters",
+            "investigation discovery go, id go",
+            "james town, jamestown",
+            "news max, newsmax",
+            "newsmaxtv, newsmax tv",
+            "nine, ix, 9",
+            "one, 1",
+            "paramount+, paramountplus, paramount plus",
+            "prime video => amazon",
+            "seven, vii, 7",
+            "sick note, sicknote",
+            "six, vi, 6",
+            "sky sports box office, sky box office",
+            "spectre, specter",
+            "spiderman, spider man, spider-man",
+            "ten, 10",
+            "thirteen, xiii, 13",
+            "three, iii, 3",
+            "twelve, xii, 12",
+            "two, ii, 2",
+            "u-verse, uverse",
+            "versus, vs",
+            "watch tnt => tnt",
+            "weather nation, weathernation",
+            "west world, westworld",
+            "yellowstone, yellow stone"
+          ]
+        }
+      },
+      "analyzer": {
+        "edgeNGram": {
+          "type": "custom",
+          "tokenizer": "keyword",
+          "filter": [
+            "lowercase",
+            "asciifolding",
+            "nGram_filter"
+          ]
+        },
+        "lowered_keyword": {
+          "type": "custom",
+          "tokenizer": "keyword",
+          "filter": [
+            "lowercase",
+            "asciifolding",
+            "synonym"
+          ]
+        },
+        "lowered_keyword_original": {
+          "type": "custom",
+          "tokenizer": "keyword",
+          "filter": [
+            "lowercase"
+          ]
+        },
+        "lowered_keyword_preserve": {
+          "type": "custom",
+          "tokenizer": "keyword",
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "synonym_title"
+          ]
+        },
+        "lowered_synonyms_preserve": {
+          "type": "custom",
+          "tokenizer": "whitespace",
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "synonym_title"
+          ]
+        },
+        "nGram": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "asciifolding",
+            "nGram_filter"
+          ]
+        },
+        "nGram_synonyms": {
+          "type": "custom",
+          "tokenizer": "whitespace",
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "synonym_title",
+            "nGram_filter"
+          ]
+        },
+        "nGram_synonyms_de": {
+          "type": "custom",
+          "tokenizer": "whitespace",
+          "char_filter": [
+            "de_char_filter"
+          ],
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "synonym_de",
+            "nGram_filter"
+          ]
+        },
+        "nGram_synonyms_en": {
+          "type": "custom",
+          "tokenizer": "whitespace",
+          "char_filter": [
+            "en_char_filter"
+          ],
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "synonym_en",
+            "nGram_filter"
+          ]
+        },
+        "nGram_synonyms_es": {
+          "type": "custom",
+          "tokenizer": "whitespace",
+          "char_filter": [
+            "es_char_filter"
+          ],
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "synonym_es",
+            "nGram_filter"
+          ]
+        },
+        "nGram_synonyms_fr": {
+          "type": "custom",
+          "tokenizer": "whitespace",
+          "char_filter": [
+            "fr_char_filter"
+          ],
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "synonym_fr",
+            "nGram_filter"
+          ]
+        },
+        "shingle_bigram_space_asciifolding": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "shingle_bigram_space_filter",
+            "ascii_folding_preserve"
+          ]
+        },
+        "stop_norm_stem_de": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "stop_de",
+            "german_normalization",
+            "snowball_stem_de"
+          ]
+        },
+        "stop_stem_en": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "stop_en",
+            "stemmer_en_override",
+            "snowball_stem_en"
+          ]
+        },
+        "stop_stem_en_v2": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "stop_en_v2",
+            "snowball_stem_en"
+          ]
+        },
+        "stop_stem_es": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "stop_es",
+            "snowball_stem_es"
+          ]
+        },
+        "stop_stem_fr": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "stop_fr",
+            "snowball_stem_fr"
+          ]
+        },
+        "stop_stem_pt": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "stop_pt",
+            "snowball_stem_pt"
+          ]
+        },
+        "simple_synonyms_preserve_de": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "char_filter": [
+            "de_char_filter"
+          ],
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "synonym_de",
+            "remove_numbers",
+            "remove_duplicates"
+          ]
+        },
+        "simple_synonyms_preserve_en": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "char_filter": [
+            "en_char_filter"
+          ],
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "synonym_en",
+            "remove_numbers",
+            "remove_duplicates"
+          ]
+        },
+        "simple_synonyms_preserve_es": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "char_filter": [
+            "es_char_filter"
+          ],
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "synonym_es",
+            "remove_numbers",
+            "remove_duplicates"
+          ]
+        },
+        "simple_synonyms_preserve_fr": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "char_filter": [
+            "fr_char_filter"
+          ],
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "synonym_fr",
+            "remove_numbers",
+            "remove_duplicates"
+          ]
+        },
+        "whitespace_synonyms_preserve_de": {
+          "type": "custom",
+          "tokenizer": "whitespace",
+          "char_filter": [
+            "de_char_filter"
+          ],
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "synonym_de"
+          ]
+        },
+        "whitespace_synonyms_preserve_en": {
+          "type": "custom",
+          "tokenizer": "whitespace",
+          "char_filter": [
+            "en_char_filter"
+          ],
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "synonym_en"
+          ]
+        },
+        "whitespace_synonyms_preserve_es": {
+          "type": "custom",
+          "tokenizer": "whitespace",
+          "char_filter": [
+            "es_char_filter"
+          ],
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "synonym_es"
+          ]
+        },
+        "whitespace_synonyms_preserve_fr": {
+          "type": "custom",
+          "tokenizer": "whitespace",
+          "char_filter": [
+            "fr_char_filter"
+          ],
+          "filter": [
+            "lowercase",
+            "ascii_folding_preserve",
+            "synonym_fr"
+          ]
+        }
+      }
+    }
+  },
+    "mappings": {
+        "properties": {
+            "movieId": {
+                "type": "keyword",
+                "norms": false
+            },
+            "title": {
+                "type": "keyword",
+                "fields": {
+                  "exact_phrase": {
+                    "type": "text",
+                    "analyzer": "lowered_keyword_preserve"
+                  },  
+                  "exact_word_stemmed": {
+                    "type": "text",
+                    "analyzer": "stop_stem_en"
+                  },
+                  "exact_word": {
+                    "type": "text",
+                    "analyzer": "lowered_synonyms_preserve",
+                    "search_analyzer": "simple"
+                  }
+                }
+
+            },
+            "release_year": {
+                "type": "date",
+                "format": "year"
+            },
+            "tmdbId": {
+                "type": "keyword"
+            },
+            "avg_rating": {
+                "type": "double"
+            },
+            "genres": {
+                "type": "keyword",
+                "fields": {
+                  "exact_phrase": {
+                    "type": "text",
+                    "analyzer": "lowered_keyword_preserve"
+                  },  
+                  "exact_word_stemmed": {
+                    "type": "text",
+                    "analyzer": "stop_stem_en"
+                  },
+                  "exact_word": {
+                    "type": "text",
+                    "analyzer": "lowered_synonyms_preserve",
+                    "search_analyzer": "simple"
+                  }
+                }
+            },
+            "tags": {
+                "type": "keyword",
+                "fields": {
+                  "exact_phrase": {
+                    "type": "text",
+                    "analyzer": "lowered_keyword_preserve"
+                  },  
+                  "exact_word_stemmed": {
+                    "type": "text",
+                    "analyzer": "stop_stem_en"
+                  },
+                  "exact_word": {
+                    "type": "text",
+                    "analyzer": "lowered_synonyms_preserve",
+                    "search_analyzer": "simple"
+                  }
+                }
+            }
+        }
+    }
+}
