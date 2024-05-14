@@ -8,7 +8,7 @@ from sentence_transformers import SentenceTransformer
 def getTmdbImage(tmdb_id):
     try:
         # Replace this variable with your actual TMdb API key
-        tmdb.API_KEY = "" #you own key
+        tmdb.API_KEY = "" #you own tmdb key
         # Base URL for TMDB poster images
         IMAGE_URL = 'https://image.tmdb.org/t/p/w500'
         movie_info = tmdb.Movies(tmdb_id).info()
@@ -19,34 +19,14 @@ def getTmdbImage(tmdb_id):
         return ""
 
 
-# Sample data for popular movies
-mock_popular_data = [
-    {"movieId": 3114, "title": "Toy Story 2", "release_year": "1999",
-     "genres": ["adventure", "animation", "children", "comedy", "fantasy"], "tmdbId": 863,
-     "avg_rating": 3.8114636719927644},
-    # Add more movie data as needed
-]
-
-# Sample data for search results
-mock_search_data = [
-    {"movieId": 1, "title": "Toy Story", "release_year": "1995",
-     "genres": ["adventure", "animation", "children", "comedy", "fantasy"], "tmdbId": 862,
-     "avg_rating": 3.893707794587238},
-    # Add more movie data as needed
-]
-
 
 def process_search_results(resp):
     hits = resp["hits"]["total"]["value"]
     print("Got {} hits:".format(resp["hits"]["total"]["value"]))
     res = []
 
-    # if hits > 0:
-    #     max_es_score = resp["hits"]["hits"][0]["_score"]
     for hit in resp["hits"]["hits"]:
-        # hit["_source"]["normalized_score"] = hit["_score"] / max_es_score
         res.append(hit["_source"])
-    print(res)
     return res
 
 
@@ -241,7 +221,7 @@ class MovieLensDemo:
     def vector_search(self, query_phrase):
         query_vector = self.model.encode(query_phrase)
         print("Query vector: ", query_vector)
-        knn_query = {"field": "title_genres_embedding", "query_vector": query_vector, "k": 5, "num_candidates": 20}
+        knn_query = {"field": "title_genres_embedding", "query_vector": query_vector, "k": 10, "num_candidates": 100}
         resp = self.es.search(index=self.embedding_alias_name, knn=knn_query)
         return process_search_results(resp)
 
